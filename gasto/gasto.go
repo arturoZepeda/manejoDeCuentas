@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Genero struct de Gasto para almacenarlo con posibilidad de generar json
 type Gasto struct {
 	FechaCreacion time.Time `json:"fecha_creacion"`
 	FechaDeCompra time.Time `json:"fecha"`
@@ -14,6 +15,7 @@ type Gasto struct {
 	Importe       float64   `json:"importe"`
 }
 
+// Constructor para generar un nuevo struct retorna puntero
 func New(fecha string, titular string, descripcion string, importe float64) (*Gasto, error) {
 	if fecha == "" || descripcion == "" || importe == 0 {
 		return &Gasto{}, errors.New("la fecha, descripción o importe no pueden venir vacios")
@@ -32,6 +34,7 @@ func New(fecha string, titular string, descripcion string, importe float64) (*Ga
 	}, nil
 }
 
+// metodo Output
 func (gasto Gasto) Output() {
 	fmt.Println("FechaCreacion:", gasto.FechaCreacion)
 	fmt.Println("FechaDeCompra:", gasto.FechaDeCompra)
@@ -40,6 +43,7 @@ func (gasto Gasto) Output() {
 	fmt.Println("Importe: ", gasto.Importe)
 }
 
+// metodo limpiar struct:
 func (gasto *Gasto) Clear() {
 	gasto.FechaCreacion = time.Time{}
 	gasto.FechaDeCompra = time.Time{}
