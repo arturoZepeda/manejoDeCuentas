@@ -32,7 +32,7 @@ func Conectar() (*sql.DB, error) {
 }
 
 func NewGastos() (*GastoDB, error) {
-	db, err := sql.Open("sqlite3", file)
+	db, err := Conectar()
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,9 @@ func (g *GastoDB) GetGastos() ([]map[string]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	defer rows.Close()
+
 	var gastos []map[string]interface{}
 	for rows.Next() {
 		var id int

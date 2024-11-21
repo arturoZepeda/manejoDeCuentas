@@ -2,14 +2,34 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 
+	database "github.com/arturoZepeda/manejoDeCuentas/db"
 	"github.com/arturoZepeda/manejoDeCuentas/extas"
 	"github.com/arturoZepeda/manejoDeCuentas/gasto"
 	leercsv "github.com/arturoZepeda/manejoDeCuentas/leerCSV"
 )
 
 func main() {
+	/*===================Proceso BBDD=================*/
+	//Inicializamos base de datos.
+	gastoDB, err := database.NewGastos()
+	if err != nil {
+		log.Fatalf("Error al inicializar la base de datos: %v", err)
+	}
+	defer gastoDB.DB.Close()
+
+	gastos, err := gastoDB.GetGastos()
+	if err != nil {
+		log.Fatalf("Error al obtener los gastos: %v", err)
+	}
+
+	fmt.Println("Gastos en la BBDD: ")
+	for _, g := range gastos {
+		fmt.Printf("ID: %v, Descripción: %v, Monto: %v, Fecha: %v, Categoría: %v\n", g["id"], g["descripcion"], g["monto"], g["fecha"], g["categoria"])
+	}
+	/*==================Proceso CSV==================*/
 	// genera la lectura del CSV activity y lo almacena en una matriz
 	lineasTemp, err := leercsv.LeeCsv("activity.csv")
 	if err != nil {
