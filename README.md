@@ -70,18 +70,19 @@ El archivo `activity.csv` debe tener las siguientes columnas (o similares, depen
 
 | Fecha       | ... | Descripción       | Titular       | ... | Importe  |
 |-------------|-----|-------------------|---------------|-----|----------|
-| 2024-11-01  | ... | Supermercado      | Arturo Zepeda | ... | 125.50   |
+| 2024-11-01  | ... | Supermercado      | usuario       | ... | 125.50   |
 
 ## Contribuciones
 
 1. Haz un fork del repositorio.
 2. Crea un branch para tus cambios:
+
    ```bash
    git checkout -b feature/nueva-funcionalidad
    ```
+
 3. Haz un pull request.
 
 ## Licencia
 
 Este proyecto está bajo la licencia [MIT](LICENSE). Siéntete libre de usarlo, modificarlo y compartirlo.
-
