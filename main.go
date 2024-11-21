@@ -9,6 +9,8 @@ import (
 	"github.com/arturoZepeda/manejoDeCuentas/extas"
 	"github.com/arturoZepeda/manejoDeCuentas/gasto"
 	leercsv "github.com/arturoZepeda/manejoDeCuentas/leerCSV"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
