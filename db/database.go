@@ -10,8 +10,8 @@ type GastoDB struct {
 }
 
 const (
-	file   string = "Gasto.db"
-	create string = `CREATE TABLE Gasto(
+	file   string = "db/Gasto.db"
+	create string = `CREATE TABLE IF NOT EXISTS Gasto(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   descripcion TEXT NOT NULL,
   monto REAL NOT NULL,
