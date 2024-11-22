@@ -118,5 +118,25 @@ func (g *GastoDB) DeleteGasto(id int) error {
 	if err != nil {
 		return err
 	}
+
+	// Reinicia el contador de autoincremento
+	_, err = g.DB.Exec(`DELETE FROM sqlite_sequence WHERE name='Gasto'`)
+	if err != nil {
+		return err
+	}
+
 	return nil
+}
+
+func (g *GastoDB) UpdateGasto(id int, gasto *gasto.Gasto) error {
+	query := `UPDATE Gasto SET descripcion = ?, monto = ?, fecha = ?, categoria = ? WHERE id = ?`
+	_, err := g.DB.Exec(query, gasto.Descripcion, gasto.Importe, gasto.FechaDeCompra.Format("2006-01-02"), gasto.Titular, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (g *GastoDB) Close() error {
+	return g.DB.Close()
 }
