@@ -21,16 +21,31 @@ func main() {
 		log.Fatalf("Error al inicializar la base de datos: %v", err)
 	}
 	defer gastoDB.DB.Close()
+	/*
+		gastos, err := gastoDB.GetGastos()
+		if err != nil {
+			log.Fatalf("Error al obtener los gastos: %v", err)
+		}
 
-	gastos, err := gastoDB.GetGastos()
-	if err != nil {
-		log.Fatalf("Error al obtener los gastos: %v", err)
-	}
+		fmt.Println("Gastos en la BBDD: ")
+		for _, g := range gastos {
+			fmt.Printf("ID: %v, Descripción: %v, Monto: %v, Fecha: %v, Categoría: %v\n", g["id"], g["descripcion"], g["monto"], g["fecha"], g["categoria"])
+		}
+		idTemp := 1
+		gastoID, err := gastoDB.GetGastoID(idTemp)
+		if err != nil {
+			log.Fatalf("Error al obtener el gato %v descripcion %v", idTemp, err)
+		}
+		fmt.Printf("ID: %v, Descripción: %v, Monto: %v, Fecha: %v, Categoría: %v\n", gastoID["id"], gastoID["descripcion"], gastoID["monto"], gastoID["fecha"], gastoID["categoria"])
 
-	fmt.Println("Gastos en la BBDD: ")
-	for _, g := range gastos {
-		fmt.Printf("ID: %v, Descripción: %v, Monto: %v, Fecha: %v, Categoría: %v\n", g["id"], g["descripcion"], g["monto"], g["fecha"], g["categoria"])
-	}
+		idTemp = 2
+		err = gastoDB.DeleteGasto(idTemp)
+		if err != nil {
+			log.Fatal("Error al borrar el registro.")
+		} else {
+			fmt.Println("Se ha eliminado correctamente el registo")
+		}
+	*/
 	/*==================Proceso CSV==================*/
 	// genera la lectura del CSV activity y lo almacena en una matriz
 	lineasTemp, err := leercsv.LeeCsv("activity.csv")
@@ -41,7 +56,6 @@ func main() {
 	// validamos  si es un amex al verificar la cabecera de los documentos.
 	esAmex := leercsv.EsAmex(lineasTemp[0])
 	fmt.Println(esAmex)
-
 	// recorremos la matriz para leer cada una de las entradas
 	for i, linea := range lineasTemp {
 
@@ -66,6 +80,19 @@ func main() {
 			fmt.Println("Error al crear el gasto:", err)
 			continue
 		}
-		gastoTemp.Output()
+		// gastoTemp.Output()
+		err = gastoDB.NewGasto(gastoTemp)
+		if err != nil {
+			fmt.Printf("Error al dar de alta el gasto: %v", err)
+		}
+	}
+
+	/*err = gastoDB.DeleteGastos()
+	if err != nil {
+		fmt.Printf("Error al limpiar la bbdd: %v", err)
+	}*/
+	err = gastoDB.DeleteGasto(390)
+	if err != nil {
+		fmt.Printf("Error al eliminar el registro ? el error es: ?", 309, err)
 	}
 }

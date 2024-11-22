@@ -3,6 +3,8 @@ package database
 import (
 	"database/sql"
 	"log"
+
+	"github.com/arturoZepeda/manejoDeCuentas/gasto"
 )
 
 type GastoDB struct {
@@ -71,4 +73,50 @@ func (g *GastoDB) GetGastos() ([]map[string]interface{}, error) {
 		})
 	}
 	return gastos, nil
+}
+
+func (g *GastoDB) GetGastoID(id int) (map[string]interface{}, error) {
+	// r,err := g.DB.QueryRow(query string, args ...any)
+	row := g.DB.QueryRow(`SELECT * FROM Gasto WHERE id = ?`, id)
+	var idr int
+	var descripcion, fecha, categoria string
+	var monto float64
+	err := row.Scan(&idr, &descripcion, &monto, &fecha, &categoria)
+	if err != nil {
+		return nil, err
+	}
+	return map[string]interface{}{
+		"id":          idr,
+		"descripcion": descripcion,
+		"monto":       monto,
+		"fecha":       fecha,
+		"categoria":   categoria,
+	}, nil
+}
+
+func (g *GastoDB) NewGasto(gasto *gasto.Gasto) error {
+	query := `INSERT INTO Gasto (descripcion, monto, fecha, categoria) VALUES (?, ?, ?, ?)`
+	_, err := g.DB.Exec(query, gasto.Descripcion, gasto.Importe, gasto.FechaDeCompra.Format("2006-01-02"), gasto.Titular)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (g *GastoDB) DeleteGastos() error {
+	query := `DELETE FROM Gasto`
+	_, err := g.DB.Exec(query)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (g *GastoDB) DeleteGasto(id int) error {
+	query := `DELETE FROM Gasto WHERE id = ?`
+	_, err := g.DB.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
