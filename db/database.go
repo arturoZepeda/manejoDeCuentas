@@ -109,6 +109,10 @@ func (g *GastoDB) DeleteGastos() error {
 	if err != nil {
 		return err
 	}
+	_, err = g.DB.Exec(`DELETE FROM sqlite_sequence WHERE name ='Gasto'`)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

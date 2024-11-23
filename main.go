@@ -86,13 +86,14 @@ func main() {
 			fmt.Printf("Error al dar de alta el gasto: %v", err)
 		}
 	}
-
-	/*err = gastoDB.DeleteGastos()
-	if err != nil {
-		fmt.Printf("Error al limpiar la bbdd: %v", err)
-	}*/
-	err = gastoDB.DeleteGasto(390)
-	if err != nil {
-		fmt.Printf("Error al eliminar el registro ? el error es: ?", 309, err)
-	}
+	/*
+		err = gastoDB.DeleteGastos()
+		if err != nil {
+			fmt.Printf("Error al limpiar la bbdd: %v", err)
+		}
+			err = gastoDB.DeleteGasto(390)
+			if err != nil {
+				fmt.Printf("Error al eliminar el registro ? el error es: ?",390, err)
+			}
+	*/
 }
