@@ -87,13 +87,18 @@ func main() {
 		}
 	}
 	/*
-		err = gastoDB.DeleteGastos()
-		if err != nil {
-			fmt.Printf("Error al limpiar la bbdd: %v", err)
-		}
-			err = gastoDB.DeleteGasto(390)
+			err = gastoDB.DeleteGastos()
 			if err != nil {
-				fmt.Printf("Error al eliminar el registro ? el error es: ?",390, err)
+				fmt.Printf("Error al limpiar la bbdd: %v", err)
 			}
+				err = gastoDB.DeleteGasto(390)
+				if err != nil {
+					fmt.Printf("Error al eliminar el registro ? el error es: ?",390, err)
+				}
+
+		err = gastoDB.UpdateCalificador(2, 5)
+		if err != nil {
+			fmt.Printf("Error al actualizar el calificador: %v", err)
+		}
 	*/
 }

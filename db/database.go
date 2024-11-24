@@ -144,3 +144,12 @@ func (g *GastoDB) UpdateGasto(id int, gasto *gasto.Gasto) error {
 func (g *GastoDB) Close() error {
 	return g.DB.Close()
 }
+
+func (g *GastoDB) UpdateCalificador(id int, calificador int) error {
+	query := `UPDATE Gasto SET calificador = ? WHERE id = ?`
+	_, err := g.DB.Exec(query, calificador, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

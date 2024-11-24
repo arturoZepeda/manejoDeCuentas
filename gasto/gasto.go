@@ -13,6 +13,7 @@ type Gasto struct {
 	Titular       string    `json:"titular"`
 	Descripcion   string    `json:"descripcion"`
 	Importe       float64   `json:"importe"`
+	Calificador   int       `json:"calificador"`
 }
 
 // Constructor para generar un nuevo struct retorna puntero
@@ -31,6 +32,7 @@ func New(fecha string, titular string, descripcion string, importe float64) (*Ga
 		titular,
 		descripcion,
 		importe,
+		0,
 	}, nil
 }
 
@@ -41,6 +43,10 @@ func (gasto Gasto) Output() {
 	fmt.Println("Titular: ", gasto.Titular)
 	fmt.Println("Descripcion: ", gasto.Descripcion)
 	fmt.Println("Importe: ", gasto.Importe)
+}
+
+func (gasto *Gasto) Califica(cal int) {
+	gasto.Calificador = cal
 }
 
 // metodo limpiar struct:
