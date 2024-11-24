@@ -101,4 +101,13 @@ func main() {
 			fmt.Printf("Error al actualizar el calificador: %v", err)
 		}
 	*/
+
+	gastoTemo, err := gastoDB.GetGastoByCalificador(5)
+	if err != nil {
+		fmt.Println("Error al obtener los registros: ?", err)
+	}
+	fmt.Println("Gastos en la BBDD por calificador")
+	for _, g := range gastoTemo {
+		fmt.Printf("ID: %v, Descripción: %v, Monto: %v, Fecha: %v, Calificador: %v\n", g["id"], g["descripcion"], g["monto"], g["fecha"], g["calificador"])
+	}
 }

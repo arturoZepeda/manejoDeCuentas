@@ -59,9 +59,9 @@ func (g *GastoDB) GetGastos() ([]map[string]interface{}, error) {
 	var gastos []map[string]interface{}
 	for rows.Next() {
 		var id int
-		var descripcion, fecha, categoria string
+		var descripcion, fecha, calificador string
 		var monto float64
-		if err := rows.Scan(&id, &descripcion, &monto, &fecha, &categoria); err != nil {
+		if err := rows.Scan(&id, &descripcion, &monto, &fecha, &calificador); err != nil {
 			return nil, err
 		}
 		gastos = append(gastos, map[string]interface{}{
@@ -69,7 +69,7 @@ func (g *GastoDB) GetGastos() ([]map[string]interface{}, error) {
 			"descripcion": descripcion,
 			"monto":       monto,
 			"fecha":       fecha,
-			"categoria":   categoria,
+			"calificador": calificador,
 		})
 	}
 	return gastos, nil
@@ -79,9 +79,9 @@ func (g *GastoDB) GetGastoID(id int) (map[string]interface{}, error) {
 	// r,err := g.DB.QueryRow(query string, args ...any)
 	row := g.DB.QueryRow(`SELECT * FROM Gasto WHERE id = ?`, id)
 	var idr int
-	var descripcion, fecha, categoria string
+	var descripcion, fecha, calificador string
 	var monto float64
-	err := row.Scan(&idr, &descripcion, &monto, &fecha, &categoria)
+	err := row.Scan(&idr, &descripcion, &monto, &fecha, &calificador)
 	if err != nil {
 		return nil, err
 	}
@@ -90,8 +90,33 @@ func (g *GastoDB) GetGastoID(id int) (map[string]interface{}, error) {
 		"descripcion": descripcion,
 		"monto":       monto,
 		"fecha":       fecha,
-		"categoria":   categoria,
+		"calificador": calificador,
 	}, nil
+}
+
+func (g *GastoDB) GetGastoByCalificador(cal int) ([]map[string]interface{}, error) {
+	rows, err := g.DB.Query(`SELECT * FROM Gasto WHERE calificador = ?`, cal)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var gastos []map[string]interface{}
+	for rows.Next() {
+		var idr, calificador int
+		var descripcion, fecha, cat string
+		var monto float64
+		if err := rows.Scan(&idr, &descripcion, &monto, &fecha, &cat, &calificador); err != nil {
+			return nil, err
+		}
+		gastos = append(gastos, map[string]interface{}{
+			"id":          idr,
+			"descripcion": descripcion,
+			"monto":       monto,
+			"fecha":       fecha,
+			"calificador": calificador,
+		})
+	}
+	return gastos, nil
 }
 
 func (g *GastoDB) NewGasto(gasto *gasto.Gasto) error {
